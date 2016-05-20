@@ -18,6 +18,12 @@ var FIRST_SLIDE = -9999999;
 var LAST_SLIDE = 9999999;
 
 /**
+ * Whether to allow looping from the last back to the first or backwards from
+ * the first to the last.
+ */
+var ALLOW_LOOPING = true;
+
+/**
  * Navigates forward n pages
  * If n is negative, we will navigate in reverse
  */
@@ -30,11 +36,13 @@ function navigate(n) {
   } else if (n === LAST_SLIDE) {
       nextPosition = numSlides;
   } else {
-      if (n < 0 && position <= 1) {
-        return;
-      }
-      if (n > 0 && position >= numSlides) {
-        return;
+      if (! ALLOW_LOOPING) {
+          if (n < 0 && position <= 1) {
+            return;
+          }
+          if (n > 0 && position >= numSlides) {
+            return;
+          }
       }
 
       /* Positions are 1-indexed, so we need to add and subtract 1 */
